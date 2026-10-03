@@ -1,4 +1,8 @@
 google-genai
 streamlit==1.40.2
 agno>=2.2.10
+<<<<<<< HEAD
 supabase
+=======
+supabase
+>>>>>>> origin/main
