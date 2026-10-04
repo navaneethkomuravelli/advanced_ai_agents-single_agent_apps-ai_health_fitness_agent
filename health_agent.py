@@ -35,7 +35,7 @@ def get_supabase() -> Client:
 @st.cache_resource
 def get_gemini():
     return Gemini(
-        id="gemini-3.6-flash",
+        id="gemini-3.5-flash-lite",
         api_key=st.secrets["GEMINI_API_KEY"],
     )
 
@@ -369,6 +369,17 @@ def save_profile(
 # ============================================================
 # SAVE GENERATED PLANS
 # ============================================================
+def run_with_retry(agent, prompt, max_retries=2):
+    for attempt in range(max_retries):
+        try:
+            return agent.run(prompt)
+        except Exception as e:
+            if "503" in str(e) and attempt < max_retries - 1:
+                time.sleep(3 * (attempt + 1))
+            else:
+                raise
+
+
 
 def save_plans():
 
